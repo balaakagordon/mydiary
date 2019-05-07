@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Entry;
+use function GuzzleHttp\json_encode;
 
 class DiaryController extends Controller
 {
@@ -13,17 +15,8 @@ class DiaryController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $entries = Entry::all();
+        return $entries;
     }
 
     /**
@@ -34,7 +27,18 @@ class DiaryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Entry::create([
+            'title' => $request->title,
+            'body' => $request->body,
+            'author' => $request->author
+        ])->save();
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'entry added successful',
+            ],
+            200
+        );
     }
 
     /**
@@ -44,17 +48,6 @@ class DiaryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         //
     }

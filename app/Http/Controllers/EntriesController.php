@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\Entry;
+use App\Models\Entry;
 use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class EntriesController extends Controller
@@ -13,22 +13,22 @@ class EntriesController extends Controller
         $entries = Entry::all();
         return view('entries.index', compact('entries'));
     }
-    
+
     public function create()
     {
         return view('entries.create');
     }
-    
+
     public function edit(Entry $entry)
     {
         return view('entries.edit', compact('entry'));
     }
-    
+
     public function show(Entry $entry)
     {
         return view('entries.show', compact('entry'));
     }
-    
+
     public function destroy(Entry $entry)
     {
         $entry->delete();
@@ -50,8 +50,10 @@ class EntriesController extends Controller
         return redirect('/entries');
     }
     
-    public function store() 
+    public function store(Request $request) 
     {
+        var_dump($request);
+        echo('stop');
         $attributes = request()->validate([
             'title' => ['required', 'min:3'],
             'user_id' => 'required',

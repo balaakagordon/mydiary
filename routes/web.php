@@ -11,12 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/* Original code */
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::resource('entries', 'EntriesController');
-
+/* Commonly used and RESTful but also customizable class methods */
 // Route::get('/entries', 'EntriesController@index');
 // Route::get('/entries/{entry}', 'EntriesController@show');
 // Route::get('/entries/{entry}/edit', 'EntriesController@edit');
@@ -25,5 +25,7 @@ Route::resource('entries', 'EntriesController');
 // Route::patch('/entries/{entry}', 'EntriesController@update');
 // Route::delete('/entries/{entry}', 'EntriesController@delete');
 
+/* RESTful approach with traditional REST class methods */
+Route::resource('api/v1/entries', 'DiaryController');
 
 Route::patch('/activities/{activity}', 'EntryActivitiesController@update');

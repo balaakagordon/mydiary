@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Activity::class, function (Faker $faker) {
+$factory->define(App\Models\Activity::class, function (Faker $faker) {
     return [
         //
     ];
