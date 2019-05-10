@@ -25,7 +25,13 @@
 // Route::patch('/entries/{entry}', 'EntriesController@update');
 // Route::delete('/entries/{entry}', 'EntriesController@delete');
 
-/* RESTful approach with traditional REST class methods */
-Route::resource('api/v1/entries', 'DiaryController');
+// /* RESTful approach with traditional REST class methods */
+// Route::resource('api/v1/entries', 'DiaryController');
+// Route::post('/auth/register', 'RegisterController@create');
+// Route::post('/auth/login', 'LoginController@index');
+
+
 
 Route::patch('/activities/{activity}', 'EntryActivitiesController@update');
+
+

@@ -9,6 +9,16 @@ use function GuzzleHttp\json_encode;
 class DiaryController extends Controller
 {
     /**
+     * New controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
