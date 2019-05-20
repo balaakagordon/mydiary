@@ -13,9 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+// Route::middleware('auth:api');
 
 
 /* RESTful approach with traditional REST class methods */
@@ -27,7 +25,10 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'v1'], function () {
-        Route::resource('entries', 'DiaryController');
         Route::get('/user', 'UserController@details');
+        Route::resource('/entries', 'DiaryController');
+        // Route::get('/user', function (Request $request) {
+        //     return $request->user();
+        // });
     });
 });

@@ -25,6 +25,18 @@ class UserService implements UserInterface
         return User::create($credentials);
     }
 
+    public function updateUserData($user, $action, $field, $data)
+    {
+        if ($data->getData()->status === 'success') {
+            if ($action === 'increment') {
+                User::find($user->id)->increment($field);
+            } else if ($action === 'decrement') {
+                User::find($user->id)->decrement($field);
+            }
+        }
+        return $data;
+    }
+
     public function getToken($user)
     {
         $success['token'] = $user->createToken('MyDiary')->accessToken;
@@ -33,13 +45,25 @@ class UserService implements UserInterface
         return $success;
     }
 
-    public function successResponse($success)
+    public function successResponse($data)
     {
-        return response()->json(['success' => $success], 200);
+        return response()->json(
+            [
+                'status' => 'success',
+                'data' => $data
+            ],
+            200
+        );
     }
 
-    public function unauthorizedResponse($error = 'Unauthorized')
+    public function unauthorizedResponse($data = 'Unauthorized')
     {
-        return response()->json(['error' => $error], 401);
+        return response()->json(
+            [
+                'status' => 'error',
+                'data' => $data
+            ],
+            401
+        );
     }
 }

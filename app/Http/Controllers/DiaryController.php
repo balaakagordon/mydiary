@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\DiaryInterface;
+use App\Repositories\UserInterface;
 
 class DiaryController extends Controller
 {
@@ -12,10 +13,14 @@ class DiaryController extends Controller
      *
      * @return void
      */
-    public function __construct(DiaryInterface $diary)
+    public function __construct(
+        DiaryInterface $diary,
+        UserInterface $user
+        )
     {
         $this->middleware('auth');
         $this->diary = $diary;
+        $this->user = $user;
     }
 
     /**
@@ -38,7 +43,12 @@ class DiaryController extends Controller
     public function store(Request $request)
     {
         $addNew = $this->diary->addNewEntry($request->all());
-        return $this->diary->getResponse($addNew);
+        return $this->user->updateUserData(
+            $request->user(),
+            'increment',
+            'allentries',
+            $this->diary->getResponse($addNew)
+        );
     }
 
     /**
@@ -72,9 +82,14 @@ class DiaryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $deletedEntry = $this->diary->deleteEntry($id);
-        return $this->diary->getResponse($deletedEntry);
+        return $this->user->updateUserData(
+            $request->user(),
+            'decrement',
+            'allentries',
+            $this->diary->getResponse($deletedEntry)
+        );
     }
 }
