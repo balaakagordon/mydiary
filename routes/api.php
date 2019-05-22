@@ -26,7 +26,8 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth:api'], function () {
-    // Route::group(['prefix' => 'v1'], function () {
+    Route::group(['prefix' => 'v1'], function () {
         Route::resource('entries', 'DiaryController');
-    // });
+        Route::get('/user', 'UserController@details');
+    });
 });

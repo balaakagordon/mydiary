@@ -13,13 +13,6 @@ class Entry extends Model
         'title', 'author', 'body'
     ];
 
-    // The ones that should not be mass-filled
-
-    // protected $guarded = [
-    //     'title', 'user_id', 'data'
-    // ];
-
-
     public function activities()
     {
         return $this->hasMany(Activity::class);

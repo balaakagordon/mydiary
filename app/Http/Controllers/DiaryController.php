@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Entry;
-use function GuzzleHttp\json_encode;
+use App\Repositories\DiaryInterface;
 
 class DiaryController extends Controller
 {
@@ -13,57 +12,49 @@ class DiaryController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(DiaryInterface $diary)
     {
         $this->middleware('auth');
+        $this->diary = $diary;
     }
 
     /**
-     * Display a listing of the resource.
+     * Display all entries.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $entries = Entry::all();
-        return $entries;
+        $entries = $this->diary->getAllEntries();
+        return $this->diary->getResponse($entries);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created entry in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        Entry::create([
-            'title' => $request->title,
-            'body' => $request->body,
-            'author' => $request->author
-        ])->save();
-        return response()->json(
-            [
-                'status' => 'success',
-                'message' => 'entry added successful',
-            ],
-            200
-        );
+        $addNew = $this->diary->addNewEntry($request->all());
+        return $this->diary->getResponse($addNew);
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified entry.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $entry = $this->diary->getOneEntry($id);
+        return $this->diary->getResponse($entry);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified entry in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -71,17 +62,19 @@ class DiaryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $editedEntry = $this->diary->editEntry($request->all(), $id);
+        return $this->diary->getResponse($editedEntry);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified entry from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $deletedEntry = $this->diary->deleteEntry($id);
+        return $this->diary->getResponse($deletedEntry);
     }
 }
