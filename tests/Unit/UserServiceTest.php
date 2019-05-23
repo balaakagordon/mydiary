@@ -21,7 +21,9 @@ class UserServiceTest extends TestCase
             'firstName' => 'Test',
             'lastName' => 'User',
             'email' => 'testuser@email.com',
-            'password' => 'Password'
+            'password' => 'Password',
+            'provider' => 'mydiary',
+            'provider_id' => 'mydiary'
         ];
 
         $this->credentials = [

@@ -27,6 +27,8 @@ class DiaryServiceTest extends TestCase
             'lastName' => 'User',
             'email' => 'testuser@email.com',
             'password' => 'Password',
+            'provider' => 'mydiary',
+            'provider_id' => 'mydiary',
             'confirmedPassword' => 'Password'
         ]);
 
@@ -67,14 +69,27 @@ class DiaryServiceTest extends TestCase
             'message' => '1 entry found',
             'statusCode' => 200,
             'data' => [
-                0 => [
-                    'id' => $entry->id,
-                    'author' => $entry->author,
-                    'title' => $entry->title,
-                    'body' => $entry->body,
-                    'created_at' => $entry->created_at,
-                    'updated_at' => $entry->updated_at
-                ]
+                'data' => [
+                    0 => [
+                        'id' => $entry->id,
+                        'author' => $entry->author,
+                        'title' => $entry->title,
+                        'body' => $entry->body,
+                        'created_at' => $entry->created_at,
+                        'updated_at' => $entry->updated_at
+                    ]
+                ],
+                'first_page_url' => "http://localhost?page=1",
+                'from' => 1,
+                'current_page' => 1,
+                'last_page' => 1,
+                'last_page_url' => "http://localhost?page=1",
+                'next_page_url' => null,
+                'path' => "http://localhost",
+                'per_page' => 10,
+                'prev_page_url' => null,
+                'to' => 1,
+                'total' => 1
             ]
         ];
         $this->assertEquals($actual, $expected);

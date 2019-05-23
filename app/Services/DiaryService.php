@@ -9,6 +9,10 @@ use App\Repositories\DiaryInterface;
 
 class DiaryService implements DiaryInterface
 {
+    public function __construct()
+    {
+        $this->entriesPerPage = 10;
+    }
     public function addNewEntry($entry)
     {
         $entry["author"] = Auth::user()->id;
@@ -23,8 +27,9 @@ class DiaryService implements DiaryInterface
     public function getAllEntries()
     {
         try {
-            $entries = Entry::all()->toArray();
-            $message = (sizeof($entries) >= 2 ) ? (sizeof($entries) . ' entries found') : (sizeof($entries) . ' entry found');
+            $entries = Entry::paginate($this->entriesPerPage)->toArray();
+            $entriesList = $entries['data'];
+            $message = (sizeof($entriesList) >= 2 ) ? (sizeof($entriesList) . ' entries found') : (sizeof($entriesList) . ' entry found');
             return $this->getResponseArray($message, 200, $entries);
         } catch (Exception $e) {
             return $this->getResponseArray($e->getMessage(), $e->getCode());
