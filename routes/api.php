@@ -23,12 +23,16 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', 'UserController@login')->name('login');
 });
 
+Route::group(['middleware' => ['web']], function () {
+
+    //socialite
+    Route::get('/login/{provider}', 'SocialAuthController@redirectToProvider');
+    Route::get('/login/{provider}/callback', 'SocialAuthController@handleProviderCallback');
+});
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'v1'], function () {
         Route::get('/user', 'UserController@details');
         Route::resource('/entries', 'DiaryController');
-        // Route::get('/user', function (Request $request) {
-        //     return $request->user();
-        // });
     });
 });

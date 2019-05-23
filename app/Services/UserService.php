@@ -22,6 +22,8 @@ class UserService implements UserInterface
     public function createUser($credentials)
     {
         $credentials['password'] = bcrypt($credentials['password']);
+        $credentials['provider'] = 'mydiary';
+        $credentials['provider_id'] = 'mydiary';
         return User::create($credentials);
     }
 

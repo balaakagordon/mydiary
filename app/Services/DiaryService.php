@@ -28,7 +28,8 @@ class DiaryService implements DiaryInterface
     {
         try {
             $entries = Entry::paginate($this->entriesPerPage)->toArray();
-            $message = (sizeof($entries) >= 2 ) ? (sizeof($entries) . ' entries found') : (sizeof($entries) . ' entry found');
+            $entriesList = $entries['data'];
+            $message = (sizeof($entriesList) >= 2 ) ? (sizeof($entriesList) . ' entries found') : (sizeof($entriesList) . ' entry found');
             return $this->getResponseArray($message, 200, $entries);
         } catch (Exception $e) {
             return $this->getResponseArray($e->getMessage(), $e->getCode());
