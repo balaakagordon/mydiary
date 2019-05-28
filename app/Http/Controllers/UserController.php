@@ -29,7 +29,8 @@ class UserController extends Controller
             return $this->users->successResponse($success);
         }
 
-        return $this->users->unauthorizedResponse();
+        $message = ['Authentication' => ['Please enter a valid email and password']];
+        return $this->users->unauthorizedResponse($message);
     }
 
     /**

@@ -28,7 +28,7 @@ class DiaryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $entries = $this->diary->getAllEntries();
         return $this->diary->getResponse($entries);

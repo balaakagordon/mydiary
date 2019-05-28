@@ -11,3 +11,4 @@
 - migrate
     php artisan migrate
     php artisan migrate --database=pgsql_testing
+    php artisan passport:client --personal

@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 
 /* RESTful approach with traditional REST class methods */
 
+
 Route::group(['prefix' => 'auth'], function () {
     Route::post('/register', 'UserController@register')->name('register');
     Route::post('/login', 'UserController@login')->name('login');

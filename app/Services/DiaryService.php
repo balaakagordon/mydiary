@@ -27,9 +27,14 @@ class DiaryService implements DiaryInterface
     public function getAllEntries()
     {
         try {
-            $entries = Entry::paginate($this->entriesPerPage)->toArray();
+            $entries = Entry::where('author', Auth::user()->id)
+            ->paginate($this->entriesPerPage)
+            ->toArray();
             $entriesList = $entries['data'];
-            $message = (sizeof($entriesList) >= 2 ) ? (sizeof($entriesList) . ' entries found') : (sizeof($entriesList) . ' entry found');
+            $numEntries = sizeof($entriesList);
+            $message = ( $numEntries >= 2 || $numEntries === 0 ) ?
+                ($numEntries . ' entries found') :
+                ($numEntries . ' entry found');
             return $this->getResponseArray($message, 200, $entries);
         } catch (Exception $e) {
             return $this->getResponseArray($e->getMessage(), $e->getCode());
@@ -39,7 +44,7 @@ class DiaryService implements DiaryInterface
     public function getOneEntry($id)
     {
         $entry = Entry::find($id);
-        if (!isset($entry)) {
+        if ( !isset($entry) ) {
             return $this->entryNotFound();
         }
         return $this->getResponseArray('Entry found', 200, $entry->toArray());
