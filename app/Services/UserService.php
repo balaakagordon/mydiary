@@ -58,7 +58,7 @@ class UserService implements UserInterface
         );
     }
 
-    public function unauthorizedResponse($data = 'Unauthorized')
+    public function unauthorizedResponse($data = ['Authentication' => ['Unauthorized']])
     {
         return response()->json(
             [
