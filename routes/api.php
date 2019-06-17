@@ -33,7 +33,8 @@ Route::group(['middleware' => ['web']], function () {
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'v1'], function () {
-        Route::get('/user', 'UserController@details');
+        Route::get('/user', 'UserController@show');
+        Route::put('/user/{id}', 'UserController@update');
         Route::resource('/entries', 'DiaryController');
     });
 });
