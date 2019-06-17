@@ -27,6 +27,23 @@ class UserService implements UserInterface
         return User::create($credentials);
     }
 
+    public function updateUserDetails($data, $id)
+    {
+        $user = User::find($id);
+        if ( !isset($user)) {
+            //
+        }
+        $user->firstName = $data['firstName'];
+        $user->lastName = $data['lastName'];
+        $user->email = $data['email'];
+        $user->image = $data['image'];
+        if (isset($data['password'])) {
+            $user->password = $data['password'];
+        }
+        $user->save();
+        return $this->formatDate($user);
+    }
+
     public function updateUserData($user, $action, $field, $data)
     {
         if ($data->getData()->status === 'success') {
@@ -37,6 +54,14 @@ class UserService implements UserInterface
             }
         }
         return $data;
+    }
+
+    public function formatDate($user)
+    {
+        $userArray = $user->toArray();
+        $userArray['updated_at'] = $user->updated_at->format('d-M-Y');
+        $userArray['created_at'] = $user->created_at->format('d-M-Y');
+        return $userArray;
     }
 
     public function getToken($user)

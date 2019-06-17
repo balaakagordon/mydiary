@@ -58,11 +58,23 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function details(Request $request)
+    public function show(Request $request)
     {
-        $user = Auth::user();
-        // $user = $request->user();
+        // $user = Auth::user();
+        $user = $this->users->formatDate(Auth::user());
 
         return $this->users->successResponse($user);
+    }
+
+    /**
+     * Update a user's details.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, int $id)
+    {
+        $editedUser = $this->users->updateUserDetails($request->all(), $id);
+
+        return $this->users->successResponse($editedUser);
     }
 }
